@@ -117,22 +117,13 @@ fun task1(arguments: Map<String, String>): String {
 fun task2(arguments: Map<String, String>) {
     val gson = Gson()
 
-    val inputText = """
-        [
-            {"name": "A", "inputFrom": []},
-            {"name": "C", "inputFrom": [2,2,0]},
-            {"name": "D", "inputFrom": []},
-            {"name": "B", "inputFrom": [1,0]}
-        ]
-    """.trimIndent()
-
-//    val inputText: String
-//    try {
-//        inputText = File(arguments[INPUT_FILE] ?: "").readText()
-//    } catch (error: Exception) {
-//        println(error)
-//        exitProcess(1)
-//    }
+    val inputText: String
+    try {
+        inputText = File(arguments[INPUT_FILE] ?: "").readText()
+    } catch (error: Exception) {
+        println(error)
+        exitProcess(1)
+    }
 
     val nodeDepsList: List<NodeDeps>
     try {
