@@ -13,9 +13,6 @@ const val NETWORK = "-n"
 const val PARAMETERS = "-p"
 
 fun main(args: Array<String>) {
-    task2(mutableMapOf())
-    exitProcess(0)
-
     val arguments = parseArguments(args)
 
     if (!validateArguments(arguments)) {
