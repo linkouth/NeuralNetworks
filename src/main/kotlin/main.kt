@@ -4,6 +4,7 @@ import kotlin.system.exitProcess
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlin.math.pow
 
 const val HELP = "-h"
 const val MODE = "-m"
@@ -392,7 +393,7 @@ fun task5(arguments: Map<String, String>) {
     var error = .0
     input.forEachIndexed { index, row ->
         val pred = neuronNet.forwardPass(row)
-        error += (output[index].first() - pred.first())
+        error += (output[index].first() - pred.first()).pow(2)
     }
 
     println("------------Веса до обучения------------")
@@ -410,7 +411,7 @@ fun task5(arguments: Map<String, String>) {
     error = .0
     input.forEachIndexed { index, row ->
         val pred = neuronNet.forwardPass(row)
-        error += (output[index].first() - pred.first())
+        error += (output[index].first() - pred.first()).pow(2)
     }
     println("Ошибка: $error")
     println("------------Веса после обучения------------")

@@ -26,7 +26,7 @@ class NeuronNet(
         return layers.last().neurons.map { neuron -> neuron.value }
     }
 
-    private fun backprop(output: List<Double>, learningRate: Double) {
+    private fun backprop(input: List<Double>, output: List<Double>, learningRate: Double) {
         layers.asReversed().forEachIndexed { layerIndex, layer ->
             layer.neurons.forEachIndexed { neuronIndex, neuron ->
                 if (layer == layers.last()) {
@@ -42,9 +42,15 @@ class NeuronNet(
             }
         }
 
-        layers.forEach { layer ->
+        layers.forEachIndexed { layerIndex, layer ->
             layer.neurons.forEach { neuron ->
-                neuron.weights = neuron.weights.map { weight -> weight + learningRate * neuron.delta }.toMutableList()
+                if (layerIndex == 0) {
+                    neuron.weights = neuron.weights.mapIndexed { weightIndex, weight ->
+                        weight + learningRate * neuron.delta * input[weightIndex]}.toMutableList()
+                } else {
+                neuron.weights = neuron.weights.mapIndexed { weightIndex, weight ->
+                    weight + learningRate * neuron.delta * layers[layerIndex - 1].neurons[weightIndex].value }.toMutableList()
+                }
             }
         }
     }
@@ -58,7 +64,7 @@ class NeuronNet(
         for (i in 0..numberOfTrainingIterations) {
             input.forEachIndexed { index, row ->
                 forwardPass(row)
-                backprop(output[index], learningRate)
+                backprop(row, output[index], learningRate)
             }
 
             if (i % 100 == 0) {
